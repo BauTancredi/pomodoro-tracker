@@ -52,27 +52,28 @@ const App = () => {
   };
 
   return (
-    <div>
-      <CountdownAnimation
-        resetKey={key}
-        timer={pomodoro}
-        animate={startAnimate}
-      >
-        {children}
-      </CountdownAnimation>
-
-      <Button
-        title={handleStartButtonTitle()}
-        activeClass={!startAnimate ? "active" : undefined}
-        _callback={() => handleStartButtonCallback()}
-      />
-
-      <Button
-        title={handlePauseButtonTitle()}
-        activeClass={startAnimate ? "active" : undefined}
-        _callback={() => handlePauseButtonCallback()}
-        isDisabled={handleDisabled()}
-      />
+    <div className="App">
+      <div className="card-container">
+        <h1>Pomodoro Tracker</h1>
+        <CountdownAnimation
+          resetKey={key}
+          timer={pomodoro}
+          animate={startAnimate}
+        >
+          {children}
+        </CountdownAnimation>
+        <Button
+          title={handleStartButtonTitle()}
+          className="button-start"
+          _callback={() => handleStartButtonCallback()}
+        />
+        <Button
+          title={handlePauseButtonTitle()}
+          className={"button-pause"}
+          _callback={() => handlePauseButtonCallback()}
+          isDisabled={handleDisabled()}
+        />
+      </div>
     </div>
   );
 };

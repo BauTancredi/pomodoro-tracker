@@ -4,8 +4,8 @@ export const SettingsContext = createContext();
 
 const SettingsContextProvider = (props) => {
   const POMODORO_TIMER = {
-    WORK: 0.05,
-    BREAK: 0.05,
+    WORK: 25,
+    BREAK: 5,
   };
 
   const [pomodoro, setPomodoro] = useState(POMODORO_TIMER.WORK);
@@ -49,10 +49,33 @@ const SettingsContextProvider = (props) => {
   };
 
   const children = ({ remainingTime }) => {
-    const minutes = Math.floor(remainingTime / 60);
-    const seconds = remainingTime % 60;
+    let minutes = Math.floor(remainingTime / 60);
+    let seconds = remainingTime % 60;
 
-    return pomodorosFinished;
+    if (minutes.toString().length < 2 || minutes === 0) {
+      minutes = `0${minutes}`;
+    }
+    if (seconds.toString().length < 2 || seconds === 0) {
+      seconds = `0${seconds}`;
+    }
+
+    return (
+      <div className="timer">
+        <div className="time-remaining">{`${minutes}:${seconds}`}</div>
+        <div
+          className={`pomodoros-finished ${pomodorosFinished > 0 && "show"}`}
+        >
+          {pomodorosFinished}x
+        </div>
+        <div
+          className={`session-paused ${
+            !hasFinished && !startAnimate && "show"
+          }`}
+        >
+          Session paused
+        </div>
+      </div>
+    );
   };
 
   return (

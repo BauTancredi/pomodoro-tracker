@@ -1,6 +1,6 @@
-const Button = ({ title, activeClass, _callback, isDisabled }) => {
+const Button = ({ title, _callback, isDisabled, className }) => {
   return (
-    <button className={activeClass} onClick={_callback} disabled={isDisabled}>
+    <button className={className} onClick={_callback} disabled={isDisabled}>
       {title}
     </button>
   );
