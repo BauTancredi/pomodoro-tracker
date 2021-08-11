@@ -3,18 +3,21 @@ import { useState, createContext } from "react";
 export const SettingsContext = createContext();
 
 const SettingsContextProvider = (props) => {
-  const pomodoroTimer = {
-    work: 0.1,
-    break: 0.1,
+  const POMODORO_TIMER = {
+    WORK: 0.05,
+    BREAK: 0.05,
   };
-  const [pomodoro, setPomodoro] = useState(pomodoroTimer.work);
+
+  const [pomodoro, setPomodoro] = useState(POMODORO_TIMER.WORK);
   const [startAnimate, setStartAnimate] = useState(false);
-  const [key, setKey] = useState(0);
+  const [hasFinished, setHasFinished] = useState(true);
   const [isWorkTimer, setIsWorkTimer] = useState(true);
+  const [key, setKey] = useState(0);
   const [pomodorosFinished, setPomodorosFinished] = useState(0);
 
   function startTimer() {
     setStartAnimate(true);
+    setHasFinished(false);
   }
 
   function pauseTimer() {
@@ -23,19 +26,21 @@ const SettingsContextProvider = (props) => {
 
   function stopAimate() {
     setStartAnimate(false);
+    setHasFinished(true);
+    isWorkTimer ? setIsWorkTimer(true) : setIsWorkTimer(false);
   }
 
-  function setCurrentTimer(executing) {
-    setTimerTime(executing);
+  function setCurrentTimer(newTime) {
+    setTimerTime(newTime);
   }
 
-  const setTimerTime = (evaluate) => {
-    switch (evaluate) {
+  const setTimerTime = (newTime) => {
+    switch (newTime) {
       case "work":
-        setPomodoro(pomodoroTimer.work);
+        setPomodoro(POMODORO_TIMER.WORK);
         break;
       case "break":
-        setPomodoro(pomodoroTimer.break);
+        setPomodoro(POMODORO_TIMER.BREAK);
         break;
       default:
         setPomodoro(0);
@@ -66,6 +71,7 @@ const SettingsContextProvider = (props) => {
         setIsWorkTimer,
         setPomodorosFinished,
         pomodorosFinished,
+        hasFinished,
       }}
     >
       {props.children}
